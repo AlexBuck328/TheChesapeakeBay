@@ -1,0 +1,25 @@
+html,
+body,
+#map {
+    height: 100%;
+    margin: 0;
+}
+
+ #caption-guts {
+     flex-grow: 1;
+     padding: 10px;
+ }
+
+ #caption-title {
+     margin-top: 0;
+     margin-left: 0;
+     margin-right: 0;
+     margin-bottom: 5px;
+     font-size: 1.5rem;
+     font-weight: 600;
+ }
+
+ #caption-text {
+     font-size: 1.1rem;
+     line-height: .4rem;
+ }

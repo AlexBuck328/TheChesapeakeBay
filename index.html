@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>The Chesapeake Bay</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+
+    <style>
+        body {
+            height: 100%;
+            background-color: black;
+        }
+
+        #iiif-map {
+            /* width: 900px; */
+            height: 110%;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: black;
+        }
+
+        .column1 {
+            float: left;
+            width: 75%;
+            margin: 10px;
+        }
+
+        .column2 {
+            float: right;
+            width: 40%;
+            margin: 10px;
+        }
+
+        #caption-holder-outer {
+            max-width: 100%;
+            /* position: fixed; */
+            bottom: 15px;
+            left: 15px;
+            right: 15px;
+        }
+
+        #caption-holder-inner {
+            float: right;
+            position: relative;
+            bottom: 0;
+            height: 100%;
+            /*140px*/
+            max-width: 65%;
+            background-color: rgb(247, 242, 236);
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            flex-direction: row;
+        }
+
+        #caption-guts {
+            opacity: 100%;
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: scroll;
+        }
+
+        #caption-title {
+            margin-top: 0;
+            margin-left: 0;
+            margin-right: 0;
+            margin-bottom: 0;
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        #caption-subtitle {
+            font-size: 1.25rem;
+        }
+
+        #caption-text {
+            font-size: 1rem;
+            line-height: 1.1rem;
+
+        }
+
+        button {
+            color: black;
+            background-color: rgb(236, 229, 222);
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #current-view {
+            color: rgb(247, 242, 236);
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="column1" id="iiif-map" align="top"></div>
+
+    <div class='column2'>
+        <div id='caption-holder-outer'>
+            <div id='caption-holder-inner'>
+                <div id='caption-guts'>
+                    <div id='caption-title'>
+                        <p>A Plan of the Entrance of Chesapeak [sic] Bay, with James and York Rivers</p>
+                    </div>
+                    <div id='caption-subtitle'>Introduction</div>
+                    <div id='caption-text'>
+                        <p>The Chesapeake Bay has profound historic significance. This map portrays one pivotal moment
+                            in the history of the United States. Although, at the time this map was created, the U.S.
+                            did not exist yet. The scene it portrays is the last vestige of British control in America.
+                            Maps are unique instruments. They are widely construed as accurate all-encompassing tools.
+                            Yet every map has its agenda. This leaves the mapmaker to purposely omit certain features or
+                            characteristics. These omissions once produced on a map, create their own realities,
+                            effectively altering the landscape and even history. “Maps are a rhetorical tool. By
+                            manipulating and emphasizing features realities can be created” (C. Kelso, 1999). </p>
+
+                        <div><button id='yorktown'>Zoom to The Battle of Yorktown</button></div>
+
+                        <p>The Battle of Yorktown began on September 28th, 1781 when General George Washington encircled
+                            the British troops under the command of General Lord Charles Cornwallis in Yorktown,
+                            Virginia. Washington lay siege to Yorktown for three weeks, relentlessly bombarding the
+                            British with artillery. On October 17th, 1781 General Cornwallis surrendered to General
+                            Washington. With his surrender, Cornwallis ended the War of Independence in the American
+                            colonies.</p>
+
+                        <div><button id='frenchBlockade'>Zoom to The French Blockade</button></div>
+
+                        <p>The siege at Yorktown was an American victory due to the blockade of the Chesapeake Bay by
+                            the French Navy. On September 5th, 1781 French and British navies battled for supremacy in
+                            the Chesapeake Bay. The French victory forced the British fleet to retreat to New York,
+                            abandoning Cornwallis and sealing his fate. With their blockade, the French were able to cut
+                            off Cornwallis from resupplies as well as retreat. </p>
+
+                        <div><button id='capeHenry'>Zoom to Cape Henry</button></div>
+
+                        <p>The impact of this map doesn’t lie solely in the military victories it displays. Equally
+                            significant are the historic events not shown. Over one hundred years prior to the Battle of
+                            Yorktown, another historic moment took place on the shores of The Bay, one more empowering
+                            for the British than their defeat at Yorktown. In April 1607, Cape Henry became the site of
+                            the first landing of Englishmen, who established Jamestown, the first English Colony in
+                            North America.</p>
+
+                        <div><button id='pointComfort'>Zoom to Point Comfort</button></div>
+
+                        <p>Present day Hampton, Virginia is the site of yet another significant event. In August 1619,
+                            the White Lion, and English privateer landed at Point Comfort in search of provisions needed
+                            to complete their voyage to Europe. The crew were looking to trade human cargo they had
+                            captured during a battle with a Spanish slave ship. They brought ashore more than twenty
+                            enslaved Africans, and thus began over 200 years of slavery in the United States.</p>
+
+                        <div id='caption-subtitle'>Conclusion</div>
+
+                        <p>The ultimate power and significance of this map is not only in what it portrays, but what it
+                            does not. As viewed through the lens of this map, the absence of such events effectively
+                            erases them from history. Though accurate for its purpose (displaying military strengths and
+                            positions) the cartographer took historic liberties in the map’s creation. “Maps should be
+                            read as subjective texts which embody and depict the power relations of the social systems
+                            under which they are created. In map analysis one should pay careful attention to the way in
+                            which symbols are used to denote spatial social hierarchies” (C. Kelso 1999). The most
+                            egregious symbolic representation of social hierarchies is complete omission. More ruthless
+                            than simply mis-categorizing or mislabeling, failing to map phenomena effectively erases it
+                            from the world. When viewing maps, both present day as well as historic, the viewer should
+                            be cognizant of the social contexts in which the cartographer produced the map. Those social
+                            norms and systems will inevitably lead to a clearer understanding of the world in which the
+                            map was made. As well as shed light on some of the liberties the cartographer may have
+                            taken. </p>
+                   </div>
+                     <div id="current-view"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""></script>
+    <script src="https://cdn.rawgit.com/mejackreed/Leaflet-IIIF/v3.0.0/leaflet-iiif.js"></script>
+    <!-- make sure to import Leaflet-IIIF *after* the main Leaflet package -->
+
+    <script>
+        var map = L.map('iiif-map', {
+            center: [0, 0],
+            crs: L.CRS.Simple,
+            zoom: 0
+        });
+
+        var chesapeakeLayer = new L.tileLayer.iiif(
+            //'https://iiif.digitalcommonwealth.org/iiif/2/commonwealth:0r96fk817/info.json').addTo(map);
+            'https://iiif.digitalcommonwealth.org/iiif/2/commonwealth:q524nf233/info.json').addTo(map)
+
+
+        // --- *** zoom to Yorktown *** ---
+
+        /* Bind to the map's `moveend` trigger and update the `#current-view` div */
+        map.on('moveend', () => {
+            document.getElementById('current-view').innerText = map.getBounds().toBBoxString();
+        });
+
+        /* Bind a click event to the `#zoom-to-legend` button and fire a `flyToBounds` function on the map */
+        document.getElementById('yorktown').addEventListener('click', () => {
+            map.flyToBounds([
+                [-352, 86],
+                [-223, 243]
+            ]);
+        });
+
+        // --- *** zoom to French Blockade *** ---
+
+        /* Bind to the map's `moveend` trigger and update the `#current-view` div */
+        map.on('moveend', () => {
+            document.getElementById('current-view').innerText = map.getBounds().toBBoxString();
+        });
+
+        /* Bind a click event to the `#zoom-to-legend` button and fire a `flyToBounds` function on the map */
+        document.getElementById('frenchBlockade').addEventListener('click', () => {
+            map.flyToBounds([
+                [-370, 374],
+                [-241, 532]
+            ]);
+        });
+
+        // --- *** zoom to Cape Henry *** ---
+
+        /* Bind to the map's `moveend` trigger and update the `#current-view` div */
+        map.on('moveend', () => {
+            document.getElementById('current-view').innerText = map.getBounds().toBBoxString();
+        });
+
+        /* Bind a click event to the `#zoom-to-legend` button and fire a `flyToBounds` function on the map */
+        document.getElementById('capeHenry').addEventListener('click', () => {
+            map.flyToBounds([
+                [-522, 431],
+                [-393, 589]
+            ]);
+        });
+
+        // --- *** zoom to Point Comfort *** ---
+
+        /* Bind to the map's `moveend` trigger and update the `#current-view` div */
+        map.on('moveend', () => {
+            document.getElementById('current-view').innerText = map.getBounds().toBBoxString();
+        });
+
+        /* Bind a click event to the `#zoom-to-legend` button and fire a `flyToBounds` function on the map */
+        document.getElementById('pointComfort').addEventListener('click', () => {
+            map.flyToBounds([
+                [-491.121, 282.5],
+                [-361.99, 440]
+            ]);
+        });
+    </script>
+
+</body>
+
+</html>
